@@ -2,10 +2,7 @@ FROM debian:9.2
 
 LABEL maintainer "opsxcq@strm.sh"
 
-RUN sed -i "s@http://ftp.debian.org@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
-    sed -i "s@http://security.debian.org@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
-    sed -i "s@http://deb.debian.org@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
-    apt-get update && \
+RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install nano vim -y \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
