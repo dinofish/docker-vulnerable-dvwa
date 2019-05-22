@@ -2,8 +2,12 @@ FROM debian:9.2
 
 LABEL maintainer "opsxcq@strm.sh"
 
-RUN apt-get update && \
+RUN sed -i "s@http://ftp.debian.org@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
+    sed -i "s@http://security.debian.org@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
+    sed -i "s@http://deb.debian.org@http://repo.huaweicloud.com@g" /etc/apt/sources.list \
+    apt-get update && \
     apt-get upgrade -y && \
+    apt-get install nano vim -y \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
     debconf-utils && \
     echo mariadb-server mysql-server/root_password password vulnerables | debconf-set-selections && \
@@ -21,6 +25,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY php.ini /etc/php5/apache2/php.ini
+COPY php.ini /etc/php/7.0/apache2/php.ini
 COPY dvwa /var/www/html
 
 COPY config.inc.php /var/www/html/config/
